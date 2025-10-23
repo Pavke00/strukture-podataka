@@ -204,10 +204,10 @@ int deletePerson(Position head, char* surname) {
 
     prev = findPersonPrev(head, surname); //trazimo osobu prije one koju zelimo obrisati
 
-    if (prev != NULL) { // ako osoba postoji
+    if (prev != NULL) { 
         temp = prev->next;  // osoba koju cemo obrisati
         prev->next = temp->next;  // preskacemo tu osobu u listi
-        free(temp);  // oslobadjamo memoriju
+        free(temp); 
         printf("\tperson deleted\n");
 
 
@@ -232,3 +232,4 @@ int deleteList(Position head) {
 
     return EXIT_SUCCESS;
 }
+
