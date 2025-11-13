@@ -1,6 +1,6 @@
-/* Napisati program za zbrajanje i mnoûenje polinoma.
-Koeficijenti i eksponenti se ?itaju iz datoteke.
-Napomena: Eksponenti u datoteci nisu nuûno sortirani. */
+/* Napisati program za zbrajanje i mno≈æenje polinoma.
+Koeficijenti i eksponenti se citaju iz datoteke.
+Napomena: Eksponenti u datoteci nisu nuzno sortirani. */
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -269,6 +269,7 @@ int polyProduct(Mono* product, Mono* poly1, Mono* poly2) {
 	return EXIT_SUCCESS;
 
 }
+
 
 
 
