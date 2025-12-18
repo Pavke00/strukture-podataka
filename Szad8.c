@@ -1,11 +1,10 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 
 #define EXIT_SUCCESS 0
 #define MALLOC_ERROR -1
 
-// Struktura ?vora stabla
+// Struktura cvora stabla
 struct treeNode;
 typedef struct treeNode* TreePosition;
 typedef struct treeNode {
@@ -14,7 +13,7 @@ typedef struct treeNode {
     TreePosition right;
 } TreeNode;
 
-// Struktura ?vora reda za level-order
+// Struktura cvora reda za level-order
 struct queueNode;
 typedef struct queueNode* QueuePosition;
 typedef struct queueNode {
@@ -22,7 +21,7 @@ typedef struct queueNode {
     QueuePosition next;
 } QueueNode;
 
-// Globalni pokaziva? na kraj reda
+// Globalni pokazivac na kraj reda
 QueuePosition rear = NULL;
 
 // Deklaracije funkcija
@@ -56,47 +55,47 @@ int main() {
         scanf("%d", &choice);
 
         switch (choice) {
-        case 1:
-            printf("Unesi vrijednost: ");
-            scanf("%d", &value);
-            root = insert(value, root);
-            if (root == NULL) printf("Greska kod alociranja memorije!\n");
-            else printf("Element dodan.\n");
-            break;
-        case 2:
-            printf("Unesi vrijednost za pronalazak: ");
-            scanf("%d", &value);
-            if (search(value, root) != NULL)
-                printf("Element %d je pronaden.\n", value);
-            else
-                printf("Element %d nije pronaden.\n", value);
-            break;
-        case 3:
-            printf("Unesi vrijednost za brisanje: ");
-            scanf("%d", &value);
-            root = deleteElement(root, value);
-            break;
-        case 4:
-            printf("Preorder ispis:\n");
-            printPreorder(root, 0);
-            break;
-        case 5:
-            printf("Inorder ispis:\n");
-            printInorder(root, 0);
-            break;
-        case 6:
-            printf("Postorder ispis:\n");
-            printPostorder(root, 0);
-            break;
-        case 7:
-            printf("Level-order ispis:\n");
-            printLevelorder(root);
-            break;
-        case 0:
-            printf("Izlaz iz programa.\n");
-            break;
-        default:
-            printf("Neispravan izbor!\n");
+            case 1:
+                printf("Unesi vrijednost: ");
+                scanf("%d", &value);
+                root = insert(value, root);
+                if (root == NULL) printf("Greska kod alociranja memorije!\n");
+                else printf("Element dodan.\n");
+                break;
+            case 2:
+                printf("Unesi vrijednost za pronalazak: ");
+                scanf("%d", &value);
+                if (search(value, root) != NULL)
+                    printf("Element %d je pronaden.\n", value);
+                else
+                    printf("Element %d nije pronaden.\n", value);
+                break;
+            case 3:
+                printf("Unesi vrijednost za brisanje: ");
+                scanf("%d", &value);
+                root = deleteElement(root, value);
+                break;
+            case 4:
+                printf("Preorder ispis:\n");
+                printPreorder(root, 0);
+                break;
+            case 5:
+                printf("Inorder ispis:\n");
+                printInorder(root, 0);
+                break;
+            case 6:
+                printf("Postorder ispis:\n");
+                printPostorder(root, 0);
+                break;
+            case 7:
+                printf("Level-order ispis:\n");
+                printLevelorder(root);
+                break;
+            case 0:
+                printf("Izlaz iz programa.\n");
+                break;
+            default:
+                printf("Neispravan izbor!\n");
         }
 
     } while (choice != 0);
@@ -115,11 +114,9 @@ TreePosition insert(int x, TreePosition root) {
         }
         root->data = x;
         root->left = root->right = NULL;
-    }
-    else if (x < root->data) {
+    } else if (x < root->data) {
         root->left = insert(x, root->left);
-    }
-    else if (x > root->data) {
+    } else if (x > root->data) {
         root->right = insert(x, root->right);
     }
     return root;
@@ -175,9 +172,8 @@ QueuePosition enqueue(TreePosition treeNode) {
 
     if (rear == NULL) {
         rear = queueNode;
-        rear->next = rear; // kružni red
-    }
-    else {
+        rear->next = rear; // kruzni red
+    } else {
         queueNode->next = rear->next;
         rear->next = queueNode;
         rear = queueNode;
@@ -192,8 +188,7 @@ TreePosition dequeue() {
         item = rear->treeNode;
         free(rear);
         rear = NULL;
-    }
-    else {
+    } else {
         QueuePosition front = rear->next;
         item = front->treeNode;
         rear->next = front->next;
@@ -216,7 +211,7 @@ int printLevelorder(TreePosition root) {
     return 0;
 }
 
-// Prona?i najmanji element u stablu
+// Pronasli najmanji element u stablu
 TreePosition findMin(TreePosition root) {
     while (root->left != NULL) root = root->left;
     return root;
@@ -235,8 +230,7 @@ TreePosition deleteElement(TreePosition root, int x) {
             TreePosition minRight = findMin(root->right);
             root->data = minRight->data;
             root->right = deleteElement(root->right, minRight->data);
-        }
-        else {
+        } else {
             TreePosition temp = root;
             if (root->left == NULL) root = root->right;
             else root = root->left;
@@ -246,7 +240,7 @@ TreePosition deleteElement(TreePosition root, int x) {
     return root;
 }
 
-// Osloba?anje cijelog stabla
+// Oslobadanje cijelog stabla
 int deleteTree(TreePosition root) {
     if (root == NULL) return 0;
     deleteTree(root->left);
