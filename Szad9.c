@@ -6,103 +6,115 @@
 // struktura cvora binarnog stabla
 typedef struct node* NodePtr;
 typedef struct node {
-    int data;            // vrijednost u cvoru
-    NodePtr left;        // lijevo dijete
-    NodePtr right;       // desno dijete
+    int data;
+    NodePtr left;
+    NodePtr right;
 } Node;
 
 // deklaracije funkcija
-NodePtr addNode(NodePtr root, int data);
-NodePtr generateTree(NodePtr root, int n);
-int replaceValues(NodePtr root);
+NodePtr insert(NodePtr root, int data);
+int replace(NodePtr root);
 void printInorder(NodePtr root, FILE* f);
+void printInorderConsole(NodePtr root);
 void deleteTree(NodePtr root);
 
 int main() {
-    NodePtr root = NULL;     // korijen stabla
-    int n = 10;              // broj elemenata
+    NodePtr root = NULL;
+    int n = 10;
+    int niz[10] = { 2, 5, 7, 8, 11, 1, 4, 2, 3, 7 }; // fiksni niz iz zadatka
 
-    srand(time(NULL));       // inicijalizacija rand funkcije
+    srand(time(NULL));
 
-    // generiranje stabla pomocu slucajnih brojeva
-    root = generateTree(root, n);
+    // dio a) – dodavanje elemenata iz niza
+    for (int i = 0; i < n; i++) {
+        root = insert(root, niz[i]);
+    }
 
     FILE* f = fopen("stablo.txt", "w");
     if (f == NULL) {
-        printf("greska pri otvaranju datoteke\n");
+        printf("Greska pri otvaranju datoteke\n");
         return 1;
     }
 
-    // inorder ispis prije replace funkcije
-    fprintf(f, "inorder prije replace\n");
+    // inorder prije replace
+    fprintf(f, "Inorder prije replace:\n");
     printInorder(root, f);
+    printf("Inorder prije replace:\n");
+    printInorderConsole(root);
+    printf("\n");
 
-    // zamjena vrijednosti cvorova
-    replaceValues(root);
+    // dio b) – zamjena vrijednosti cvora
+    replace(root);
 
-    // inorder ispis nakon replace funkcije
-    fprintf(f, "\ninorder nakon replace\n");
+    // inorder nakon replace
+    fprintf(f, "\nInorder nakon replace:\n");
     printInorder(root, f);
+    printf("Inorder nakon replace:\n");
+    printInorderConsole(root);
+    printf("\n");
 
     fclose(f);
-
-    // oslobadanje memorije
     deleteTree(root);
 
+    // dio c) – generiranje slučajnih brojeva u novom stablu
+    NodePtr rootRandom = NULL;
+    for (int i = 0; i < n; i++) {
+        int value = rand() % 81 + 10; // 10–90
+        rootRandom = insert(rootRandom, value);
+    }
+
+    f = fopen("stablo.txt", "a"); // dodaj na kraj datoteke
+    if (f == NULL) {
+        printf("Greska pri otvaranju datoteke\n");
+        return 1;
+    }
+
+    fprintf(f, "\n\nInorder nasumicno generiranog stabla prije replace:\n");
+    printInorder(rootRandom, f);
+    printf("Inorder nasumicno generiranog stabla prije replace:\n");
+    printInorderConsole(rootRandom);
+    printf("\n");
+
+    replace(rootRandom);
+
+    fprintf(f, "\nInorder nasumicno generiranog stabla nakon replace:\n");
+    printInorder(rootRandom, f);
+    printf("Inorder nasumicno generiranog stabla nakon replace:\n");
+    printInorderConsole(rootRandom);
+    printf("\n");
+
+    fclose(f);
+    deleteTree(rootRandom);
+
+    printf("Program je zavrsio. Provjerite datoteku stablo.txt\n");
     return 0;
 }
 
-// dodavanje novog elementa u binarno stablo pretrazivanja
-NodePtr addNode(NodePtr root, int data) {
-
-    // ako je stablo prazno stvaram novi cvor
+// funkcija za dodavanje elementa u stablo
+NodePtr insert(NodePtr root, int data) {
     if (root == NULL) {
         root = (NodePtr)malloc(sizeof(Node));
         root->data = data;
-        root->left = NULL;
-        root->right = NULL;
+        root->left = root->right = NULL;
         return root;
     }
 
-    // manja vrijednost ide u lijevo podstablo
     if (data < root->data)
-        root->left = addNode(root->left, data);
-
-    // veca vrijednost ide u desno podstablo
-    else if (data > root->data)
-        root->right = addNode(root->right, data);
+        root->left = insert(root->left, data);
+    else
+        root->right = insert(root->right, data);
 
     return root;
 }
 
-// funkcija za stvaranje stabla sa slucajnim brojevima
-NodePtr generateTree(NodePtr root, int n) {
-    int i;
-    int value;
-
-    for (i = 0; i < n; i++) {
-        value = rand() % 81 + 10;   // raspon od 10 do 90
-        root = addNode(root, value);
-    }
-
-    return root;
-}
-
-// replace funkcija koja mijenja vrijednost cvora
-// nova vrijednost je suma svih potomaka
-int replaceValues(NodePtr root) {
-
-    // ako nema cvora vracam 0
+// funkcija replace – svaki cvor postaje suma svih potomaka
+int replace(NodePtr root) {
     if (root == NULL)
         return 0;
 
-    // spremam staru vrijednost cvora
     int oldData = root->data;
+    root->data = replace(root->left) + replace(root->right);
 
-    // rekurzivno racunam sumu lijevog i desnog podstabla
-    root->data = replaceValues(root->left) + replaceValues(root->right);
-
-    // vracam ukupnu sumu podstabla
     return root->data + oldData;
 }
 
@@ -115,6 +127,15 @@ void printInorder(NodePtr root, FILE* f) {
     }
 }
 
+// inorder prolazak i ispis u konzolu
+void printInorderConsole(NodePtr root) {
+    if (root != NULL) {
+        printInorderConsole(root->left);
+        printf("%d ", root->data);
+        printInorderConsole(root->right);
+    }
+}
+
 // rekurzivno brisanje stabla
 void deleteTree(NodePtr root) {
     if (root != NULL) {
@@ -123,3 +144,6 @@ void deleteTree(NodePtr root) {
         free(root);
     }
 }
+
+
+
