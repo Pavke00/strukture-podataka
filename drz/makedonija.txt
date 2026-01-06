@@ -1,0 +1,5 @@
+Skopje, 526502
+Bitola, 74550
+Kumanovo, 105484
+Prilep, 66246
+Ohrid, 42033

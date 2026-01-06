@@ -1,0 +1,5 @@
+Mogadishu, 2450000
+Hargeisa, 1200000
+Bosaso, 700000
+Kismayo, 500000
+Baidoa, 400000

@@ -1,0 +1,5 @@
+Bucharest, 1836000
+Cluj-Napoca, 324576
+Timisoara, 319279
+Iasi, 290422
+Constanta, 263707
