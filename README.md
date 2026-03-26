@@ -14,7 +14,7 @@ to gain real experience through internships and student jobs.
 * Basics of C
 * Basics of C++
 * Basic Linux usage
-* Git / GitHub
+* GitHub
 * Creating simple web pages with the help of AI tools
 
 ---
@@ -33,6 +33,7 @@ A simple responsive website project created as practice.
 * problem solving and algorithms
 * deeper understanding of C programming
 * practical software development skills
+* fundamentals of web development
 
 ---
 
